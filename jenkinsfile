@@ -1,7 +1,7 @@
 node('jdk11-mvn3.8.4') {
-    properties([pipelineTriggers([upstream('starter project'), cron('*/30 * * * 0,6')])])
+    properties([parameters([choice(choices: ['kscripted', 'kdeclarative', 'master'], description: 'this is for build run', name: 'BRANCH_TO_BUILD')])])
     stage('git') {
-        git 'https://github.com/nagaraju0/java11-examples.git'
+        git url : 'https://github.com/nagaraju0/java11-examples.git', branch : "${params.BRANCH_TO_BUILD}"
     }
     stage('build') {
         sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
