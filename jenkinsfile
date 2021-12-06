@@ -6,8 +6,8 @@ pipeline {
         pollSCM('20 */4 * * 0,6')
     }
     parameters {
-        string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'this for build run')
-        choice(name: 'BRANCH_TO_BUILD', choices: ['kscripted', 'kdeclarative', 'master'], description: 'this for run branch')
+        string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'goal for maven')
+        choice(name: 'BRANCH_TO_BUILD', choices: ['kscripted', 'kdeclarative', 'master'], description: 'branch to build')
     }
     stages {
         stage('scm') {
@@ -19,6 +19,7 @@ pipeline {
         }
         stage('build') {
             steps{
+                sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
                 sh "/usr/local/apache-maven-3.8.4/bin/mvn ${params.MAVEN_GOAL}"
             }
         }
