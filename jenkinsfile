@@ -5,16 +5,15 @@ pipeline {
         cron('*/45 * * * 1-5')
         pollSCM('20 */4 * * 0,6')
     }
-    stages('git') {
-        stage {
+    stages {
+        stage('git') {
             steps{
-                git 'https://github.com/nagaraju0/java11-examples.git'
+               git 'https://github.com/nagaraju0/java11-examples.git' 
             }
-
         }
-        stage {
+        satge('build') {
             steps{
-               sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package' 
+                sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
             }
         }
     }
