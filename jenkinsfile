@@ -1,14 +1,31 @@
-node('jdk11-mvn3.8.4') {
-    stage('git') {
-        git 'https://github.com/nagaraju0/java11-examples.git'
+pipeline {
+    agent { label 'my-defined-label' }
+    triggers {
+        upstream(upstreamProjects: 'starter project', threshold: hudson.model.Result.SUCCESS)
+        cron('*/45 * * * 1-5')
+        pollSCM('20 */4 * * 0,6')
     }
-    stage('build') {
-        sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
-    }
-    stage('archive') {
-        archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
-    }
-    stage('publish test results') {
-        junit '**/TEST-*.xml'
+    stages('git') {
+        stage {
+            steps{
+                git 'https://github.com/nagaraju0/java11-examples.git'
+            }
+
+        }
+        stage {
+            steps{
+               sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package' 
+            }
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
