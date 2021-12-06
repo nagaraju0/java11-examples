@@ -5,6 +5,10 @@ pipeline {
         cron('*/45 * * * 1-5')
         pollSCM('20 */4 * * 0,6')
     }
+    parameters {
+        string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'this for build run')
+        choice(name: 'BRANCH_TO_BUILD', choices: ['kscripted', 'kdeclarative', 'master'], description: 'this for run branch')
+    }
     stages {
         stage('scm') {
             steps{
