@@ -6,12 +6,12 @@ pipeline {
         pollSCM('20 */4 * * 0,6')
     }
     stages {
-        stage('git') {
+        stage('scm') {
             steps{
                git 'https://github.com/nagaraju0/java11-examples.git' 
             }
         }
-        satge('build') {
+        stage('build') {
             steps{
                 sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
             }
