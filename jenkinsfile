@@ -13,14 +13,12 @@ pipeline {
         stage('scm') {
             steps{
                git 'https://github.com/nagaraju0/java11-examples.git'
-               git url : 'https://github.com/nagaraju0/java11-examples.git', branch : "${params.BUILD_TO_RUN}"
                 
             }
         }
         stage('build') {
             steps{
                 sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
-                sh "/usr/local/apache-maven-3.8.4/bin/mvn ${params.MAVEN_GOAL}"
             }
         }
     }
