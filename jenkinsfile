@@ -12,6 +12,7 @@ pipeline {
     stages {
         stage('scm') {
             steps{
+               git 'https://github.com/nagaraju0/java11-examples.git'
                git url : 'https://github.com/nagaraju0/java11-examples.git', branch : "${params.BUILD_TO_RUN}"
                 
             }
