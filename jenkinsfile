@@ -24,9 +24,9 @@ pipeline {
     }
     post {
         always {
-            mail from : "devops@qt.com"
-            to : 'team@qt.com'
-            subject : "status of the pipeline ${currentbuild.fulldisplayname}"
+            mail from : "devops@qt.com",
+            to : 'team@qt.com',
+            subject : "status of the pipeline ${currentbuild.fulldisplayname}",
             body : "${env.BUILD_URL} has a result ${current build.result}"
         }
     }
