@@ -13,7 +13,8 @@ node('jdk11-mvn3.8.4') {
         stage('publish test results') {
             junit '**/TEST-*.xml'
         }
-        currentbuild.result='SUCESS'
+
+        currentbuild.result='SUCCESS'
     }
     catch (err) {
         currentbuild.result='FAILURE'
