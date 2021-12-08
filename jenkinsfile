@@ -15,7 +15,7 @@ node('jdk11-mvn3.8.4') {
         }
         currentbuild.result='SUCESS'
     }
-    catch {
+    catch (err) {
         currentbuild.result='FAILURE'
     }
     finally {
