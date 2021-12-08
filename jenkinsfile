@@ -21,17 +21,17 @@ pipeline {
                 sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
             }
         }
-    }    
-    post {
-        always {
-            mail from : "nagarajucivil011@gmail.com",
-            to : 'abbaigarimanavadu77@gmail.com',
-            subject : "status of the pipeline ${currentbuild.fulldisplayname}",
-            body : "${env.BUILD_URL} has a result ${current build.result}"
+    } 
+        post {
+            always {
+                mail from: "nagarajucivil011@gmail.com",
+                to: 'abbaigarimanavadu77@gmail.com',
+                subject: "Status of the pipeline ${currentBuild.fullDisplayName}",
+                body: "${env.BUILD_URL} has a result ${currentBuild.result}"
+
         }
     }
-}    
-
+}
 
 
 
