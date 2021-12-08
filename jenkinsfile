@@ -21,8 +21,7 @@ pipeline {
                 sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
             }
         }
-    }
-}    
+    }    
     post {
         always {
             mail from : "devops@qt.com",
@@ -31,6 +30,7 @@ pipeline {
             body : "${env.BUILD_URL} has a result ${current build.result}"
         }
     }
+}    
 
 
 
