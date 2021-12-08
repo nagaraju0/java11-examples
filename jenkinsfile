@@ -1,5 +1,5 @@
 node('jdk11-mvn3.8.4') {
-    stage('git') {
+        stage('git') {
         git 'https://github.com/nagaraju0/java11-examples.git'
     }
     stage('build') {
