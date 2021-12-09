@@ -1,8 +1,8 @@
 node('jdk11-mvn3.8.4') {
     try {
-        properties([parameters([choice(choices: ['kscripted', 'kdeclarative', 'master'], description: 'this is for build run', name: 'BRANCH_TO_BUILD')])])
+        properties([pipelineTriggers([upstream('testfile'), cron('30 */2 * * 0,6'), pollSCM('30 23 * * 1-5')])])
         stage('git') {
-            git url : 'https://github.com/nagaraju0/java11-examples.git'
+             git branch: 'main', url: 'https://github.com/nagaraju0/spring-petclinic.git'
             }
         stage('build') {
             sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
