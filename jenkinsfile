@@ -23,7 +23,7 @@ pipeline {
         }
     } 
         post {
-            alwyas {
+            always {
                 mail from: "nagarajucivil011@gmail.com",
                 to: 'abbaigarimanavadu77@gmail.com',
                 subject: "Status of the pipeline ${currentBuild.fullDisplayName}",
