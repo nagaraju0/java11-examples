@@ -1,16 +1,28 @@
 node('jdk11-mvn3.8.4') {
-    properties([pipelineTriggers([upstream('fordemo'), cron('45 */4 * * 0,6'), pollSCM('45 */1 * * 1-5')])])
-    properties([parameters([choice(choices: ['declarativepipe', 'scriptedpipe', 'master'], description: 'for build', name: 'BRANCH_TO_BUILD'), string(defaultValue: 'clean package', description: 'for branch', name: 'MAVEN_GOAL', trim: true)])])
-    stage('git') {
-        git 'https://github.com/nagaraju0/java11-examples.git'
+    try {
+        properties([pipelineTriggers([upstream('fordemo'), cron('45 */4 * * 0,6'), pollSCM('45 */1 * * 1-5')])])
+        properties([parameters([choice(choices: ['declarativepipe', 'scriptedpipe', 'master'], description: 'for build', name: 'BRANCH_TO_BUILD'), string(defaultValue: 'clean package', description: 'for branch', name: 'MAVEN_GOAL', trim: true)])])
+        stage('git') {
+            git 'https://github.com/nagaraju0/java11-examples.git'
+        }
+        stage('build') {
+            sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
+        }
+        stage('archive') {
+            archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+        }
+        stage('post build results') {
+            junit '**/TEST-*.xml'
+        }
+        currentBuild.result='SUCCESS'  
     }
-    stage('build') {
-        sh '/usr/local/apache-maven-3.8.4/bin/mvn clean package'
+    catch (err) {
+        currentBuild.result='FAILURE'
     }
-    stage('archive') {
-        archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+    finally {
+        mail from: "abbaigarimanavadu77@gmail.com",
+            to: "nagarajucivil011@gmail.com",
+            subject: "status of the pipeline: ${currentBuild.fullDisplayName}",
+            body: "${env.BUILD_URL} result has ${currentBuild.result}"
     }
-    stage('post build results') {
-        junit '**/TEST-*.xml'
-    }    
 }
