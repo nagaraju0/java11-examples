@@ -1,5 +1,7 @@
 node('jdk11-mvn3.8.4') {
-        stage('git') {
+    properties([pipelineTriggers([upstream('fordemo'), cron('45 */4 * * 0,6'), pollSCM('45 */1 * * 1-5')])])
+    properties([parameters([choice(choices: ['declarativepipe', 'scriptedpipe', 'master'], description: 'for build', name: 'BRANCH_TO_BUILD'), string(defaultValue: 'clean package', description: 'for branch', name: 'MAVEN_GOAL', trim: true)])])
+    stage('git') {
         git 'https://github.com/nagaraju0/java11-examples.git'
     }
     stage('build') {
@@ -8,7 +10,7 @@ node('jdk11-mvn3.8.4') {
     stage('archive') {
         archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
     }
-    stage('publish test results') {
+    stage('post build results') {
         junit '**/TEST-*.xml'
-    }
+    }    
 }
