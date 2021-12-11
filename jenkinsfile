@@ -31,4 +31,12 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            mail from: "abbaigarimanavadu77@gmail.com",
+                to: 'nagarajucivil011@gmail.com',
+                subject: "status of the pipeline : ${currentBuild.fullNameDisplay}",
+                body: "${env.BUILD_URL} result has ${currentBuild.result}"
+        }
+    }
 }
