@@ -30,22 +30,19 @@ pipeline {
                 junit '**/TEST-*.xml'
             }
         }
+        stage("build & SonarQube analysis") {
+            withSonarQubeEnv(installationName:'SONAR_9.2.1', envOnly: true, credentialsId: 'SONAR_TOKEN') {
+                sh "/usr/local/apache-maven-3.8.4/bin/mvn clean package sonar:sonar"
+                                         echo "${env.SONAR_HOST_URL}"
+            }
+        }
     }
     post {
         always {
             mail from: "abbaigarimanavadu77@gmail.com",
                 to: 'nagarajucivil011@gmail.com',
-                subject: "Status of the pipeline ${currentBuild.fullDisplayName}",
-                body: "${env.BUILD_URL} has a result ${currentBuild.result}",
-        }
-        stage("build & SonarQube analysis") {
-            steps {
-                withSonarQubeEnv(installationName:'SONAR_9.2.1', envOnly: true, credentialsId: 'SONAR_TOKEN') {
-                    sh "/usr/local/apache-maven-3.8.4/bin/mvn clean package sonar:sonar"
-                                         echo "${env.SONAR_HOST_URL}"
-                }
-            }
+                subject: "Status of the pipeline ${currentBuild.fullDisplayName}"
+                body: "${env.BUILD_URL} has a result ${cureentBuild.result}"
         }
     }
-
-}
+}   
