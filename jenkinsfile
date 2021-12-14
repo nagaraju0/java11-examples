@@ -62,10 +62,10 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'JFROG_ARTIFACTORY', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD')]) {
                     rtMavenRun (
-                        tools:'MVN_3.8.4',
+                        tool:'MVN_3.8.4',
                         pom:'pom.xml',
                         goals:'clean install',
-                        depolyerId:'MAVEN_DEPLOYER'
+                        deployerId:'MAVEN_DEPLOYER'
 
                     )
                 }      
