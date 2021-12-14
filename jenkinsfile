@@ -51,9 +51,9 @@ pipeline {
         stage('artifacory configuration') {
             steps {
                 rtMavenDeployer (
-                    id:'MAVEN_DEPLOYER'
-                    serverId:'JFROG-OSS'
-                    releaseRepo:'qt-maven-releases'
+                    id:'MAVEN_DEPLOYER',
+                    serverId:'JFROG-OSS',
+                    releaseRepo:'qt-maven-releases',
                     snapshotRepo:'qt-maven-snapshots'
                 )
             }
@@ -62,9 +62,9 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'JFROG_ARTIFACTORY', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD')]) {
                     rtMavenRun (
-                        tools:'MVN_3.8.4'
-                        pom:'pom.xml'
-                        goals:'clean install'
+                        tools:'MVN_3.8.4',
+                        pom:'pom.xml',
+                        goals:'clean install',
                         depolyerId:'MAVEN_DEPLOYER'
 
                     )
